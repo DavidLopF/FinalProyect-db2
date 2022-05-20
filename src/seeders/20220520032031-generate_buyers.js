@@ -18,6 +18,7 @@ module.exports = {
           LIMIT 10
         `, { type: Sequelize.QueryTypes.SELECT });
 
+    console.log(buyers);
 
     buyers = buyers.map(buyer => {
       return {
