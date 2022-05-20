@@ -2,12 +2,9 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    //traer a todos los datos de la tabla Buyers
     let buyers = await queryInterface.sequelize.query(`
         SELECT * FROM "Buyers"
       `, { type: Sequelize.QueryTypes.SELECT });
-
-    //crear una tarjeta por cada uno de los compradores
     let cards = buyers.map(buyer => {
       return {
         buyer_id: buyer.id,
@@ -20,9 +17,7 @@ module.exports = {
         updatedAt: new Date()
       }
     })
-
     await queryInterface.bulkInsert('Cards', cards, {});
-
     cards = await queryInterface.sequelize.query(`
         SELECT * FROM "Cards"
       `, { type: Sequelize.QueryTypes.SELECT });
@@ -45,7 +40,28 @@ module.exports = {
       }
     })
     await queryInterface.bulkInsert('Payment_types', paymentsTypes, {});
+
+    //tomar 5 registros aleatorios de la tabla Payment_types
+    let payments = await queryInterface.sequelize.query(`
+        SELECT * FROM "Payment_types"
+        ORDER BY RANDOM()
+        LIMIT 5
+      `, { type: Sequelize.QueryTypes.SELECT });
+
+    payments = payments.map(payment => {
+      return {
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        payment_type_id: payment.id
+      }
+    })
+
+    await queryInterface.bulkInsert('Payments', payments, {});
+
+
   },
+
+
 
   async down(queryInterface, Sequelize) {
     await queryInterface.bulkDelete('Cards', null, {});
