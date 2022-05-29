@@ -25,7 +25,6 @@ class ProductController {
         });
         product = product.toJSON();
         product_detail = product_detail.toJSON();
-        console.log(product);
         res.render(`product/product`, {
             product: product,
             product_detail: product_detail
@@ -37,6 +36,7 @@ class ProductController {
         const id = req.params.id;
         try {
             const queryCache = await cache.get(`product_category_${id}`);
+            console.log(queryCache);
             if (queryCache) {
                 res.status(200).json({
                     ok: true,
@@ -49,7 +49,7 @@ class ProductController {
                     }
                 });
                 products = products.map(product => product.toJSON());
-                await cache.add_listProducts(`product_category_${id}`, products);
+                await cache.add_listProducts(`product_category_${id}`, JSON.stringify(products));
                 res.status(200).json({
                     ok: true,
                     products: products
