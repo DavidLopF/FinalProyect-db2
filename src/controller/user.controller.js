@@ -11,7 +11,7 @@ class UserController {
     }
 
     getPurchase(req, res) {
-        res.render('purchase')
+        res.render('user/purchase')
     }
 
     getCart(req, res) {
