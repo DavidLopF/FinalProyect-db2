@@ -1,0 +1,128 @@
+<div class="container shadow-lg p-2  bg-body">
+    <div class="hero-body">
+        <div class="container" style="padding-left: 10%;">
+            <div class="columns">
+                <div class="column is-5">
+                    <div class="card">
+                        <img id="image" src="https://falabella.scene7.com/is/image/FalabellaCO/19604512_1?wid=800&hei=800&qlt=70"
+                            alt="Description">
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div class="card">
+                        <div class="column">
+                            <p class="title is-4">
+                                {{product.name}}
+                            </p><br>
+                            <p class="subtitle is-4">
+                                ${{product.price}}
+                            </p>
+                            <p class="subtitle is-6">
+                                Memoria interna: 64gb
+                            </p>
+                            <button class="button is-success is-outlined">64 GB</button>
+                            <button class="button is-success is-outlined">128 GB</button>
+                            <button class="button is-success is-outlined">256 GB</button>
+
+                            <p class="subtitle is-7" style="padding-top: 3%;">
+                                Color: {{product_detail.color}}
+                            </p>
+                            <div>
+                                <input type="image"
+                                    src="https://falabella.scene7.com/is/image/FalabellaCO/19604512_1?wid=800&hei=800&qlt=70"
+                                    style="width: 70px; height:70px; border-bottom: 1px solid black;" />
+                                <input type="image"
+                                    src="https://falabella.scene7.com/is/image/FalabellaCO/19604512_1?wid=800&hei=800&qlt=70"
+                                    style="width: 70px; height:70px; border-bottom: 1px solid black;" />
+                                <input type="image"
+                                    src="https://falabella.scene7.com/is/image/FalabellaCO/19604512_1?wid=800&hei=800&qlt=70"
+                                    style="width: 70px; height:70px; border-bottom: 1px solid black;" />
+                            </div> <br>
+                            <p>
+                                <button class="button is-info">Buy now</button>
+                                <button id="add" class="button is-info">
+                                    <span class="material-icons-outlined">
+                                        add_shopping_cart
+                                    </span>
+                                    Add to cart
+                                </button>
+                            </p>
+
+                            <p class="subtitle is-7" style="padding-top: 1%;">
+                                View info
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal rounded" id="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card animate__animated animate__slideInUp">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Alert</p>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <p>product add to the  shopping cart</p>
+        </section>
+        <button class="modal-close is-large" id="close" aria-label="close"></button>
+    </div>
+</div>
+
+
+
+<script>
+
+    const add = document.getElementById('add');
+    const token  =  localStorage.getItem('token');
+    const image = document.getElementById('image');
+    const src = image.src;
+    
+    add.addEventListener('click', () => {
+        const url = '/shop_cart/add'
+        const data = {
+            product : {
+                id : {{product.id}},
+                name: '{{product.name}}',
+                price :  '{{product.price}}',
+                color: '{{product_detail.color}}',
+                image: src
+            }, 
+                      
+        }
+
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json' 
+            }
+        })
+
+            .then(res => res.json())
+            .then(res => {
+                if(!res.ok){
+                    window.location.href = "/shop_cart/error";
+                }
+
+                const modal = document.getElementById('modal');
+                modal.classList.add('is-active');
+                setTimeout(() => {
+                    modal.classList.remove('is-active');
+                }, 3000);
+
+                const close = document.getElementById('close');
+                close.addEventListener('click', () => {
+                    modal.classList.remove('is-active');
+                });
+
+                console.log(res);
+            })
+    });
+
+</script>

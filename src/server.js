@@ -17,32 +17,33 @@ class Server {
         this.Server = require('http').createServer(this.app);
         this.midelwares();
         //this.database();
-        //routes
-        this.user = '/user';
-        this.auth = '/auth';
-        this.products = '/products';
-        this.shopping_cart = '/shop_cart';
-        this.order = '/order';
-        //this.routes();
+        this.user_path = '/user';   
+        this.auth_path = '/auth';
+        this.products_path = '/products';
+        this.shopping_cart_path = '/shop_cart';
+        this.order_path = '/order';
+        this.product_categories = db.product_categories;
+        this.routes();
+
+
+
     }
 
     routes() {
-        this.app.use(this.user, require('./routes/user.route'));
-        this.app.use(this.auth, require('./routes/auth.route'));
-        this.app.use(this.products, require('./routes/product.route'));
-        this.app.use(this.shopping_cart, require('./routes/shopping_cart.route'));
-        this.app.use(this.order, require('./routes/order.route'));
-        this.app.get('/', (req, res) => {
-            const query = 'SELECT * FROM public.products LIMIT 5'
-            marketplace.query(query).then((result) => {
-                const product_categories = 'SELECT * FROM public.product_categories'
-                marketplace.query(product_categories).then((result2) => {
-                    res.render('index', {
-                        products: result.rows,
-                        categories: result2.rows
-                    });
-                })
-            })
+        // this.app.use(this.user, require('./routes/user.route'));
+        this.app.use(this.auth_path, require('./routes/auth.route'));
+        this.app.use(this.products_path , require('./routes/product.route'));
+        // this.app.use(this.shopping_cart, require('./routes/shopping_cart.route'));
+        // this.app.use(this.order, require('./routes/order.route'));
+        this.app.get('/', async (req, res) => {
+            let products = await db.Product.findAll();
+            let categories = await db.Product_category.findAll();
+            products = products.map(product => product.toJSON());
+            categories = categories.map(category => category.toJSON());
+            res.render('index', {
+                products: products, 
+                categories: categories
+            });
         });
 
         //configurate 404
@@ -60,7 +61,9 @@ class Server {
     midelwares() {
         this.app.use(cors());
         this.app.use(logger('dev'));
+        
         this.app.use(express.static(path.join(__dirname, 'public')));
+
         this.app.use(express.urlencoded({ extended: true })); //Esto es para formData
         this.app.use(express.json())
 

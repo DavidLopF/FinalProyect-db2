@@ -1,0 +1,25 @@
+<div class="modal is-active  rounded ">
+    <div class="modal-background"></div>
+    <div class="modal-card animate__animated animate__slideInUp">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Alerta !!</p>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <p>{{message}}</p>
+        </section>
+        <button class="modal-close is-large" id="close" aria-label="close"></button>
+    </div>
+</div>
+
+
+<script>
+    const button = document.getElementById('abrir-modal');
+    const close = document.getElementById('close');
+
+    close.addEventListener('click', () => {
+        document.querySelector('.modal').classList.remove('is-active');
+        window.location.href = "{{url}}";
+    });
+
+</script>

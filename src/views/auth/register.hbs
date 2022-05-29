@@ -1,0 +1,86 @@
+<div class="container is-max-desktop mt-6 animate__animated animate__slideInLeft box" style="max-width: 800px">
+    <form method="post" action="/auth/register">
+        <div class="container is-max-desktop mt-6 " style="max-width: 700px;">
+            <h1 class="title is-1" style="text-align:center">Registrarse</h1>
+            <hr>
+        </div>
+
+        <div class="field">
+            <label for="" class="label">Nombre</label>
+            <div class="control">
+                <input type="text" autofocus="true" required="true" name="name" placeholder="Nombre" class="input">
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="" class="label">tipo de documento</label>
+            <div class="control">
+                <input type="text" autofocus="true" required="true" name="dni_type" placeholder="tipo de documento"
+                    class="input">
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="" class="label">Numero de documento</label>
+            <div class="control">
+                <input type="text" autofocus="true" required="true" name="dni" placeholder="Numero de documento"
+                    class="input">
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="" class="label">Email</label>
+            <div class="control">
+                <input type="email" autofocus="true" name="email" required="true" placeholder="Email" class="input">
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="" class="label">Telefono</label>
+            <div class="control">
+                <input type="number" autofocus="true" required="true" name="cellphone" placeholder="Telefono"
+                    class="input">
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="" class="label">Contraseña</label>
+            <div class="control">
+                <input type="password" required="true" name="password" class="input" placeholder="Contraseña"
+                    autocomplete="current-password">
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="" class="label">Seleccione ciudad</label>
+            <div class="select">
+                <select id="city" name="city">
+                    <option>Bogotá</option>
+                    <option>Medellin</option>
+                    <option>Cali</option>
+                </select>
+            </div>
+        </div>
+        <div class="field">
+            <label for="" class="label">Seleccione roll</label>
+            <div class="select">
+                <select id="type" name="type">
+                    <option>buyer</option>
+                    <option>supplier</option>
+                </select>
+            </div>
+        </div>
+        <div class="field">
+            <label for="" class="label">Dirección</label>
+            <div class="control">
+                <input type="text" autofocus="true" required="true" name="address" placeholder="Dirección"
+                    class="input">
+            </div>
+        </div>
+
+        <div class="container is-half mt-3" style="text-align:center">
+            <button class="button is-black" id="register">Registrarme</button>
+        </div>
+    </form>
+</div>
+
