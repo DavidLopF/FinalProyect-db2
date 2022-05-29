@@ -24,13 +24,10 @@ class Server {
         this.order_path = '/order';
         this.product_categories = db.product_categories;
         this.routes();
-
-
-
     }
 
     routes() {
-        // this.app.use(this.user, require('./routes/user.route'));
+        this.app.use(this.user_path, require('./routes/user.route'));
         this.app.use(this.auth_path, require('./routes/auth.route'));
         this.app.use(this.products_path , require('./routes/product.route'));
         // this.app.use(this.shopping_cart, require('./routes/shopping_cart.route'));

@@ -21,23 +21,21 @@ const ValidateUniqueUser = async (req, res, next) => {
     }
 }
 
-const existUser = (req, res, next) => {
+const existUser = async (req, res, next) => {
     const { email } = req.body;
-
-    marketplace.query(`SELECT * FROM public.user WHERE email = '${email}'`)
-        .then(result => {
-            if (result.rowCount === 0) {
-                res.render('error', {
-                    message: 'User not found',
-                    url: '/auth/register'
-                })
-
-            } else {
-                next();
-            }
+    const user = await db.User.findOne({
+        where: {
+            email: email
         }
-        )
-
+    });
+    if (!user) {
+        res.render('error', {
+            message: 'User does not found',
+            url: '/auth/register'
+        })
+    } else {
+        next();
+    }   
 }
 module.exports = {
     ValidateUniqueUser,
