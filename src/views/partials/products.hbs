@@ -208,11 +208,10 @@
             const products = response.products;
 
             products.forEach(product => {
-
                 const product_item = `
                 <div class="column">
                 <div class="card">
-                    <a href="/products/{{product.id}}">
+                    <a href="/products/${product.id}">
                         <h1 class="has-text-centered mt-5 has-text-weight-bold is-family-primary has-text-info">${product.name}
                         </h1>
                     </a>
