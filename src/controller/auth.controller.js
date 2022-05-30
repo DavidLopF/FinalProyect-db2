@@ -97,7 +97,17 @@ class authController {
                 if (buyer) {
                     const token = await generateJSW_Buyer(user.id);
                     res.render('user/user', {
-                        user: user,
+                        user: {
+                            id: user.id,
+                            full_name: user.full_name,
+                            email: user.email,
+                            cellphone: user.cellphone,
+                            address: user.address,
+                            city: user.city,
+                            id_number_type: user.id_number_type,
+                            id_number: user.id_number,
+                            img_profile: user.img_profile
+                        },
                         buyer: true,
                         token: token
                     });
