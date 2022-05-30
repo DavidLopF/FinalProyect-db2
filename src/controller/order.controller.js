@@ -79,28 +79,32 @@ class OrderController {
 
         }
     }
+
+    getAllOrdersView(req, res) {
+        res.render('order/orders');
+    }
+
+    async getAllOrders(req, res) {
+        const orders = await Order.find();
+        res.json({
+            ok: true,
+            orders: orders
+        });
+
+    }
 }
 
 
 
-const getAllOrdersView = (req, res) => {
-    res.render('orders');
-}
 
-const getAllOrders = async (req, res) => {
-    const token = req.headers.authorization.split(" ")[1];
-    const { uid } = jwt.verify(token, process.env.TOKEN_BUYER);
-    console.log(uid);
-}
+
+
 
 
 
 const createOrder = async (req, res) => {
 
     const { shoppingCart, payment, address } = req.body;
-
-    console.log(shoppingCart);
-
     if (shoppingCart.length > 0) {
         let token = req.headers.authorization.split(" ")[1];
         const { uid } = jwt.verify(token, process.env.TOKEN_BUYER);
@@ -118,7 +122,6 @@ const createOrder = async (req, res) => {
             price += parseInt(product.product_price);
 
         });
-
 
 
         const checkOutProcess = `INSERT INTO public.checkout_process(shopping_car_id, buyer_id) VALUES ('${shop_car_id}', '${getBuyer}') RETURNING id`;

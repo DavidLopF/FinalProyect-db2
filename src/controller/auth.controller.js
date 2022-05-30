@@ -71,7 +71,6 @@ class authController {
             }
         });
         user = user.toJSON();
-        console.log(user);
         const pass = bcrypt.compareSync(password, user.password);
         if (pass) {
             const supplier = await db.Supplier.findOne({
@@ -79,14 +78,17 @@ class authController {
                     user_id: user.id
                 }
             });
+            delete user.password;
             if (supplier) {
                 const token = await generateJSW_Supplier(user.id);
-                res.render('user', {
+                res.render('user/user', {
                     user: user,
                     supplier: true,
                     token: token
                 });
             } else {
+                //eliminar el campo password del objeto user
+                delete user.password;
                 const buyer = await db.Buyer.findOne({
                     where: {
                         user_id: user.id

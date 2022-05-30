@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const userController = require("../controller/user.controller");
+const orderController = require("../controller/order.controller");
 
 
 router.get("/", (req, res) => {
@@ -20,15 +21,19 @@ router.get("/checkout", (req, res) => {
 })
 
 router.get("/cart", (req, res) => {
-  userController.getCart(req, res);
+    userController.getCart(req, res);
 })
 
 router.get("/order", (req, res) => {
-    userController.getAllOrdersView(req, res);
+    orderController.getAllOrdersView(req, res);
 })
 
 router.get("/orders", (req, res) => {
     userController.getAllOrders(req, res);
+})
+
+router.get('/profile', (req, res) => {
+    res.render('user/user');
 })
 
 
