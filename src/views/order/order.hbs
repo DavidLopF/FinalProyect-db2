@@ -1,0 +1,155 @@
+<div class="container is-centered mt-5">
+    <div class="card is-centered">
+        <div class="card-content">
+            <div class='rows'>
+                <div class='row is-full is-underline'>
+                    <p class="title is-4">Orden #{{order.id}}</p>
+                </div>
+                <div class='row is-full'>
+                    <p class="title is-4">Detalles del cliente</p>
+                </div>
+                <div class='row is-full'>
+                    <div class="columns">
+                        <div class="column is-half">
+                            <p class="title is-5">Nombre: </p>
+                        </div>
+                        <div class="column is-half">
+                            <p class="text is-5">{{user.full_name}}</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class='row is-full'>
+                    <div class="columns">
+                        <div class="column is-half">
+                            <p class="title is-5">Email: </p>
+                        </div>
+                        <div class="column is-half">
+                            <p class="text is-5">{{user.email}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class='row is-full is-underline'>
+                    <div class="columns">
+                        <div class="column is-half">
+                            <p class="title is-5">Documento: </p>
+                        </div>
+                        <div class="column is-half">
+                            <p class="text is-5">{{user.id_document}}</p>
+                        </div>
+                    </div>
+                </div>
+                 
+                <div class='row is-full is-online'>
+                    <p class="title is-4">Detalles del envio</p>
+                </div>
+                <div class='row is-full'>
+                    <div class="columns">
+                        <div class="column is-half">
+                            <p class="title is-5">Ciudad: </p>
+                        </div>
+                        <div class="column is-half">
+                            <p class="text is-5">{{user.city}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class='row is-full'>
+                    <div class="columns">
+                        <div class="column is-half">
+                            <p class="title is-5">Direccion de envio: </p>
+                        </div>
+                        <div class="column is-half">
+                            <p class="text is-5">{{user.address}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class='row is-full is-underline'>
+                    <div class="columns">
+                        <div class="column is-half">
+                            <p class="title is-5">Estado: </p>
+                        </div>
+                        <div class="column is-half ">
+                            <p class="text is-5">{{order.status}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class='row is-full'>
+                    <p class="title is-4">Detalles de la compra</p>
+                </div>
+                <div class='row is-full'>
+                    <div class="columns">
+                        <div class="column is-one-third">
+                            <p class="title is-4">Producto</p>
+                        </div>
+                        <div class="column">
+                            <p class="title is-4">Precio</p>
+                        </div>
+                        <div class="column">
+                            <p class="title is-4">Tamaño</p>
+                        </div>
+                        <div class="column">
+                            <p class="title is-4">Color</p>
+                        </div>
+                    </div>
+                </div>
+                {{#each products}}
+                <div class='row is-full'>
+                    <div class="columns">
+                        <div class="column is-one-third">
+                            <p class="text is-5">{{name}}</p>
+                        </div>
+                        <div class="column">
+                            <p class="text is-5">{{price}}</p>
+                        </div>
+                        <div class="column">
+                            <p class="text is-5">{{size}}</p>
+                        </div>
+                        <div class="column">
+                            <p class="text is-5">{{color}}</p>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+                <div class='row is-full is-online'>
+                    <div class="columns">
+                        <div class="column is-half">
+                            <p class="title is-4">Total: </p>
+                        </div>
+                        <div class="column is-half has-text-right">
+                            <p class="text is-5">{{order.price}}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .rows{
+        display: flex;
+        flex-direction: column;
+        
+    }
+
+    .row{
+        width: 100%;
+        padding: 0.7rem 0;
+    }
+
+    .card{
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .is-underline{
+        border-bottom: 1px solid #cacaca;
+    }
+
+    .is-online{
+        border-top: 1px solid #cacaca;
+    }
+
+
+</style>

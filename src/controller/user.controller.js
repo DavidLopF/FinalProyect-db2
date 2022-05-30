@@ -19,7 +19,7 @@ class UserController {
     }
 
     getProcess(req, res) {
-        res.render('process')
+        res.render('shopping_car/process')
     }
 }
 

@@ -31,7 +31,7 @@ class Server {
         this.app.use(this.auth_path, require('./routes/auth.route'));
         this.app.use(this.products_path, require('./routes/product.route'));
         this.app.use(this.shopping_cart_path, require('./routes/shopping_cart.route'));
-        // this.app.use(this.order, require('./routes/order.route'));
+        this.app.use(this.order_path, require('./routes/order.route'));
         this.app.get('/', async (req, res) => {
             let products = await db.Product.findAll();
             let categories = await db.Product_category.findAll();
