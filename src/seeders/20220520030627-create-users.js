@@ -17,7 +17,8 @@ module.exports = {
         city: 'Ciudad falsa',
         password: pass,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(), 
+        img_profile: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200'
       })
     }
     await queryInterface.bulkInsert('Users', users ,{});

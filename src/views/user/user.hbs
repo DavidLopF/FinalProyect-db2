@@ -29,6 +29,55 @@
     </div>
 </div>
 
+<div class="columns mt-4 is-centered">
+    <div class="column box is-four-fifths">
+        <div class="columns is-flex is-vcentered">
+            <div class="column is-two-fifths">
+                <img src="{{user.img_profile}}" class="rounded mx-auto d-block" width="100" height="100">
+            </div>
+            <div class="column">
+                <h1 class="title is-1">{{user.full_name}}</h1>
+            </div>
+        </div>
+        <hr>
+        <div class="columns is-flex is-vcentered">
+            <div class="column ">
+                <h1 class="title is-5" style="float: right ;" align="rigtht">Email:</h1>
+            </div>
+            <div class="column">
+                <h1 class="subtitle is-5" style="float: left;">{{user.email}}</h1>
+            </div>
+        </div>
+        <div class="columns is-flex is-vcentered mt-2">
+            <div class="column ">
+                <h1 class="title is-5" style="float: right ;" align="rigtht">Telefono:</h1>
+            </div>
+            <div class="column">
+                <h1 class="subtitle is-5">{{user.cellphone}}</h1>
+            </div>
+        </div>
+        <div class="columns is-flex is-vcentered mt-2">
+            <div class="column ">
+                <h1 class="title is-5" style="float: right ;" align="rigtht">Ciudad:</h1>
+            </div>
+            <div class="column">
+                <h1 class="subtitle is-5">{{user.city}}</h1>
+            </div>
+        </div>
+        <div class="columns is-flex is-vcentered mt-2 mb-2">
+            <div class="column ">
+                <h1 class="title is-5" style="float: right ;" align="rigtht">Direccion:</h1>
+            </div>
+            <div class="column">
+                <h1 class="subtitle is-5">{{user.address}}</h1>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
 {{/if}}
 <script>
     const button = document.getElementById('abrir-modal');

@@ -1,0 +1,54 @@
+<h1>Ordenes</h1>
+
+
+<div class="modal rounded" id="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card animate__animated animate__slideInUp">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Alert</p>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <p id="p_modal"></p>
+        </section>
+        <button class="modal-close is-large" id="close" aria-label="close"></button>
+    </div>
+</div>
+
+<script>
+    const tok = localStorage.getItem('token');
+    const p_modal = document.getElementById('p_modal');
+    if (tok){
+        
+        const url = '/user/orders';
+        const data = {
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': `Bearer ${tok}`
+            }
+        }
+
+        fetch(url, data)
+        .then(res => res.json())
+        .then(res =>{
+            console.log(res);
+        })
+        .catch(err => console.log(err))
+
+
+    }else{
+        p_modal.innerHTML = 'You must be logged in to add products to the cart';
+        const modal = document.getElementById('modal');
+        modal.classList.add('is-active');
+
+        const close = document.getElementById('close');
+        close.addEventListener('click', () => {
+            modal.classList.remove('is-active');
+        });
+
+        setTimeout(() => {
+            modal.classList.remove('is-active');
+            window.location.href = '/auth/login';
+        }, 3000);
+    }
+</script>
