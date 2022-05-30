@@ -1,0 +1,382 @@
+<section class="container">
+    <div class="columns is-multiline">
+        <div class="column is-12 register">
+            <div class="columns">
+                <div class="column left" id="left">
+                    <div class="card-content">
+                        <h1 class="title is-3">Checkout Process</h1>
+                        <h2 class="subtitle colored is-4">Tus productos</h2>
+                        <div class="card-table">
+                            <div class="content">
+                                <table class="table is-fullwidth is-striped">
+                                    <thead>
+                                        <tr class="has-text-centered">
+                                            <th>
+                                                <div class="level-right">
+                                                    Image
+                                                </div>
+                                            </th>
+
+                                            <th>
+                                                <div class="level-right">
+                                                    Name
+                                                </div>
+                                            </th>
+
+                                            <th>
+                                                <div class="level-right">
+                                                    Quantity
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="level-right">
+                                                    Price
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="checkout_table">
+                                    </tbody>
+                                </table>
+                                <div class="total">
+                                    <div>
+                                        <div class="Subtotal">Sub-Total</div>
+                                        <div class="items" id="items"></div>
+                                    </div>
+                                    <div class="total-amount" id="total-price"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column right has-text-centered">
+                    <h1 class="title is-4">Completa los datos</h1>
+                    <div class="field ">
+                        <label class="label has-text-left">Ingrese la ciudad</label>
+                        <div class="select is-left" style="width: 100%">
+                            <select id="city" name="city" style="width: 100%">
+                                <option>Bogotá</option>
+                                <option>Medellin</option>
+                                <option>Cali</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label has-text-left">Ingrese la dirección</label>
+                        <div class="control">
+                            <input class="input" type="text" placeholder="Dirección" id="address">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label has-text-left">Método de pago</label>
+                        <div class="control">
+                            <div class="select is-left" style="width: 100%">
+                                <select id="method_payment" name="payment" style="width: 100%">
+                                    <option>Tarjeta de crédito</option>
+                                    <option>Tarjeta de débito</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <input class="input" type="number" placeholder="Número de tarjeta" id="card_number">
+                        </div>
+                        <div class="control is-flex">
+                            <input class="input" type="date" placeholder="MM/YY" id="date_expired">
+                            <input class="input" type="text" placeholder="CVC" id="cvc">
+                        </div>
+                    </div>
+                    <button class="button is-block is-primary is-fullwidth is-medium" id="order">Submit</button>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal rounded" id="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card animate__animated animate__slideInUp">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Alert</p>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <p id="msg_modal"></p>
+        </section>
+        <button class="modal-close is-large" id="close" aria-label="close"></button>
+    </div>
+</div>
+
+
+<script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRujBBR7smNV8d_DYuABXbWAYlVvED0wY"></script>
+<script>
+    const shoppingCart = JSON.parse(localStorage.getItem('shopping_cart'));
+    const order = document.getElementById('order');
+    let city = document.getElementById('city');
+    city = city.options[city.selectedIndex].value;
+    let address = document.getElementById('address');
+    let method_payment = document.getElementById('method_payment');
+    method_payment = method_payment.options[method_payment.selectedIndex].value;
+    const card_number = document.getElementById('card_number');
+    const date_expired = document.getElementById('date_expired');
+    const cvc = document.getElementById('cvc');
+    const token1 = localStorage.getItem('token');
+    let total = document.getElementById('total-price');
+    total = total.innerHTML;
+
+
+
+    function getLatLng(address) {
+        console.log(address);
+        return new Promise(function (resolve, reject) {
+            let geocoder = new google.maps.Geocoder();
+            geocoder.geocode({
+                'address': address + ', ' + city
+            }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    console.log(results[0].geometry.location);
+                    const location = {
+                        lat: results[0].geometry.location.lat(),
+                        lng: results[0].geometry.location.lng()
+
+                    }
+                    resolve(location);
+                } else {
+                    reject(status);
+                }
+            });
+        });
+    }
+
+
+
+    order.addEventListener('click', async () => {
+
+
+        if (address.value == '' || city == '' || method_payment == '' || card_number.value == '' || date_expired.value == '' || cvc.value == '') {
+
+
+            document.getElementById('modal').classList.add('is-active');
+            document.getElementById('msg_modal').innerHTML = 'please fill all the fields';
+            document.getElementById('close').addEventListener('click', function () {
+                document.getElementById('modal').classList.remove('is-active');
+            });
+
+        } else if (card_number.value.length < 16) {
+            document.getElementById('modal').classList.add('is-active');
+            document.getElementById('msg_modal').innerHTML = 'the card number is not valid'
+            document.getElementById('close').addEventListener('click', function () {
+                document.getElementById('modal').classList.remove('is-active');
+            });
+
+        } else if (shoppingCart.length == 0) {
+            document.getElementById('modal').classList.add('is-active');
+            document.getElementById('msg_modal').innerHTML = 'Shopping cart is empty';
+            document.getElementById('close').addEventListener('click', function () {
+                document.getElementById('modal').classList.remove('is-active');
+                window.location.href = '/';
+            });
+
+        } else {
+
+            address = await getLatLng(address.value)
+            console.log(address);
+
+            const data1 = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token1}`
+                },
+                body: JSON.stringify({
+                    shoppingCart: shoppingCart,
+                    address: address,
+                    payment: {
+                        method: method_payment,
+                        card_number: card_number.value,
+                        date_expired: date_expired.value,
+                        cvc: cvc.value,
+                        price: total.innerHTML
+                    },
+                })
+            };
+
+
+
+            fetch('/order/create', data1)
+                .then(response => response.json())
+                .then(data => {
+                    //aqui va el codigo para redireccionar a la pagina de order
+                    if (data.ok) {
+                        localStorage.removeItem('shopping_cart');
+                        window.location.href = '/order/' + data.order_id;
+                    } else {
+                        console.log(data.message);
+                        document.getElementById('modal').classList.add('is-active');
+                        document.getElementById('msg_modal').innerHTML = data.message
+
+                        document.getElementById('close').addEventListener('click', function () {
+                            document.getElementById('modal').classList.remove('is-active');
+                        });
+
+                        setTimeout(function () {
+                            document.getElementById('modal').classList.remove('is-active');
+                        }, 3000);
+
+
+
+                    }
+                })
+                .catch(error => console.error("paila"));
+        }
+    })
+
+
+
+
+</script>
+<script>
+    const token = localStorage.getItem('token');
+    const url = '/shop_cart/';
+
+    const data = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    }
+    const calculateTotal = (products) => {
+        const total = document.getElementById('total-price');
+        let total_price = 0;
+
+        products.forEach((product) => {
+            total_price += parseInt(product.product_price);
+        })
+
+        total.innerHTML = `${total_price}`;
+
+    }
+    fetch(url, data)
+        .then(res => res.json())
+        .then(res => {
+            res.shopping_cart.products.forEach((product) => {
+                const table = document.getElementById('checkout_table');
+                table.innerHTML += `
+                            <tr class="has-text-centered">
+                                            <td width="5%">
+                                                <img src="${product.product_image}"
+                                                    alt="">
+                                            </td>
+                                            <td>
+                                                <div class="level-right">
+                                                    <p>
+                                                        <strong id="price-product">${product.product_name}</strong>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="level-right">
+                                                    
+                                                    <h6 class="count"
+                                                        style="padding-top: 5%; padding-left: 5%; padding-right: 5%;">1
+                                                    </h6>
+                                                    
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="level-right">
+                                                    <p>
+                                                        <strong>${product.product_price}</strong>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                        
+                        `
+            })
+            calculateTotal(res.shopping_cart.products);
+        })
+
+</script>
+<style>
+    :root {
+        --brandColor: hsl(166, 67%, 51%);
+        --infoColor: hsl(240, 76%, 71%);
+        --background: rgb(247, 247, 247);
+        --textDark: hsla(0, 0%, 0%, 0.66);
+        --textLight: hsla(0, 0%, 0%, 0.33);
+    }
+
+    .field:not(:last-child) {
+        margin-bottom: 1rem;
+    }
+
+    .register {
+        margin-top: 10rem;
+        background: white;
+        border-radius: 10px;
+    }
+
+    .left,
+    .right {
+        padding: 4.5rem;
+    }
+
+    .left {
+        border-right: 5px solid var(--background);
+    }
+
+    .left .title {
+        font-weight: 800;
+        letter-spacing: -2px;
+    }
+
+    .left .colored {
+        color: var(--infoColor);
+        font-weight: 500;
+        margin-top: 1rem !important;
+        letter-spacing: -1px;
+    }
+
+    .left p {
+        color: var(--textLight);
+        font-size: 1.15rem;
+    }
+
+    .right .title {
+        font-weight: 800;
+        letter-spacing: -1px;
+    }
+
+    .right .description {
+        margin-top: 1rem;
+        margin-bottom: 1rem !important;
+        color: var(--textLight);
+        font-size: 1.15rem;
+    }
+
+    .right small {
+        color: var(--textLight);
+    }
+
+    input {
+        font-size: 1rem;
+    }
+
+    input:focus {
+        border-color: var(--brandColor) !important;
+        box-shadow: 0 0 0 1px var(--brandColor) !important;
+    }
+
+    .image {
+        max-width: ;
+    }
+
+    .fab,
+    .fas {
+        color: var(--textLight);
+        margin-right: 1rem;
+    }
+</style>
