@@ -73,18 +73,15 @@
 
 <script>
     const tok = localStorage.getItem('token');
-
-    if (token) {
+    if (tok) {
         const url = '/shop_cart/';
-
         const data = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${tok}`
             }
         }
-
         fetch(url, data)
             .then(res => res.json())
             .then(res => {
@@ -124,8 +121,6 @@
                         
                         `
                 })
-
-
                 calculateTotal(res.shopping_cart.products);
                 changeItems(res.shopping_cart.products);
                 localStorage.setItem('shopping_cart', JSON.stringify(res.shopping_cart.products));
@@ -134,7 +129,6 @@
             .catch(err => {
                 console.log(err)
             })
-
     } else {
         const modal = document.getElementById('modal');
         const close = document.getElementById('close');
@@ -144,16 +138,11 @@
             modal.classList.remove('is-active');
             window.location.href = '/auth/login';
         }, 3000);
-
         close.addEventListener('click', () => {
             modal.classList.remove('is-active');
             window.location.href = '/auth/login';
         });
-
-
     }
-
-
     const calculateTotal = (products) => {
         const total = document.getElementById('total-price');
         let total_price = 0;
@@ -161,15 +150,10 @@
         products.forEach((product) => {
             total_price += parseInt(product.product_price);
         })
-
         total.innerHTML = `${total_price}`;
-
     }
-
-
     const changeItems = (product) => {
         const items = document.getElementById('items');
         items.innerHTML = `Total items ${product.length}`;
     }
-
 </script>

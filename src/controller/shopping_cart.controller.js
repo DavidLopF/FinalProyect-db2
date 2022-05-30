@@ -13,8 +13,9 @@ class ShoppingCartController {
         let token = req.headers.authorization.split(" ")[1];
         const { uid } = jwt.verify(token, process.env.TOKEN_BUYER);
         const { product } = req.body
-        const getBuyer = await this.buyer.findOne({ where: { id: uid } })
-        const getShoppingCart = await cache.get(`shopping_cart_${getBuyer}`)
+        let getBuyer = await this.buyer.findOne({ where: { user_id: uid } })
+        getBuyer = getBuyer.dataValues
+        const getShoppingCart = await cache.get(`shopping_cart_${getBuyer.id}`)
         if (getShoppingCart) {
             const shopingcart = JSON.parse(getShoppingCart)
             shopingcart.products.push({
@@ -25,14 +26,14 @@ class ShoppingCartController {
                 product_color: product.color,
                 product_image: product.image
             })
-            cache.add_shoppingCart(`shopping_cart_${getBuyer}`, JSON.stringify(shopingcart))
+            cache.add_shoppingCart(`shopping_cart_${getBuyer.id}`, JSON.stringify(shopingcart))
             res.status(200).json({
                 ok: true,
                 message: 'product added to shopping cart',
             })
         } else {
             const shopingcart = {
-                user_id: getBuyer,
+                user_id: getBuyer.id,
                 products: [{
                     product_id: product.id,
                     product_name: product.name,
@@ -42,7 +43,7 @@ class ShoppingCartController {
                     product_image: product.image
                 }]
             }
-            const temp = await cache.add_shoppingCart('shopping_cart_' + getBuyer, JSON.stringify(shopingcart));
+            const temp = await cache.add_shoppingCart('shopping_cart_' + getBuyer.id, JSON.stringify(shopingcart));
             if (temp) {
                 res.status(200).json({
                     ok: true,
@@ -60,10 +61,11 @@ class ShoppingCartController {
     async getShoppingCart(req, res) {
         let token = req.headers.authorization.split(" ")[1];
         const { uid } = jwt.verify(token, process.env.TOKEN_BUYER);
-        const getBuyer = await this.buyer.findOne({ where: { id: uid } })
-        const getShoppingCart = await cache.get(`shopping_cart_${getBuyer}`)
-        console.log(getShoppingCart)
+        let getBuyer = await this.buyer.findOne({ where: { user_id: uid } })
+        getBuyer = getBuyer.dataValues
+        const getShoppingCart = await cache.get(`shopping_cart_${getBuyer.id}`)
         if (getShoppingCart) {
+            console.log(getShoppingCart)
             res.status(200).json({
                 ok: true,
                 message: 'shopping cart',

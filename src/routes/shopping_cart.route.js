@@ -14,7 +14,7 @@ router.post("/add", [
 })
 
 router.get("/error", (req, res) => {
-    shopingcartController.error(req, res);
+    shopingcartController.getError(req, res);
 })
 router.get("/", [validateJWT], (req, res) => {
     shopingcartController.getShoppingCart(req, res);

@@ -237,26 +237,22 @@
 
 </script>
 <script>
-    const token = localStorage.getItem('token');
+    const tok = localStorage.getItem('token');
     const url = '/shop_cart/';
-
     const data = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${tok}`
         }
     }
     const calculateTotal = (products) => {
         const total = document.getElementById('total-price');
         let total_price = 0;
-
         products.forEach((product) => {
             total_price += parseInt(product.product_price);
         })
-
         total.innerHTML = `${total_price}`;
-
     }
     fetch(url, data)
         .then(res => res.json())
