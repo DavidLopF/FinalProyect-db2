@@ -78,7 +78,7 @@
 <script>
 
     const add = document.getElementById('add');
-    const token  =  localStorage.getItem('token');
+    const tok  =  localStorage.getItem('token');
     const image = document.getElementById('image');
     const src = image.src;
     
@@ -99,7 +99,7 @@
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
-                'authorization': `Bearer ${token}`,
+                'authorization': `Bearer ${tok}`,
                 'Content-Type': 'application/json' 
             }
         })

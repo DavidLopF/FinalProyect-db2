@@ -15,7 +15,7 @@ class UserController {
     }
 
     getCart(req, res) {
-        res.render('cart')
+        res.render('shopping_car/cart')
     }
 
     getProcess(req, res) {
