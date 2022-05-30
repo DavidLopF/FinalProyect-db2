@@ -35,7 +35,7 @@ class authController {
             });
             if (supplier) {
                 const token = await generateJSW_Supplier(user.id);
-                res.render('user', {
+                res.render('user/user', {
                     user: user,
                     supplier: true,
                     token: token
@@ -47,7 +47,7 @@ class authController {
             });
             if (buyer) {
                 const token = await generateJSW_Buyer(user.id);
-                res.render('user', {
+                res.render('user/user', {
                     user: user,
                     buyer: true,
                     token: token
@@ -65,11 +65,13 @@ class authController {
 
     async login(req, res) {
         const { email, password } = req.body;
-        const user = await db.User.findOne({
+        let user = await db.User.findOne({
             where: {
                 email: email
             }
         });
+        user = user.toJSON();
+        console.log(user);
         const pass = bcrypt.compareSync(password, user.password);
         if (pass) {
             const supplier = await db.Supplier.findOne({
@@ -92,7 +94,7 @@ class authController {
                 });
                 if (buyer) {
                     const token = await generateJSW_Buyer(user.id);
-                    res.render('user', {
+                    res.render('user/user', {
                         user: user,
                         buyer: true,
                         token: token

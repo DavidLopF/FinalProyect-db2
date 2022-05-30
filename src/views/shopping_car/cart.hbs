@@ -1,0 +1,175 @@
+<div class="container shadow-lg p-3 mt-6">
+    <div class="hero-body">
+        <div class="container" style="padding-left: 5%;">
+            <h1>Shopping Cart</h1>
+            <div class="columns">
+                <div class="column is-12">
+                    <div class="card-content">
+                        <div class="card-table">
+                            <div class="content">
+                                <table class="table is-fullwidth is-striped">
+                                    <thead>
+                                        <tr class="has-text-centered">
+                                            <th>
+                                                <div class="level-right">
+                                                    Image
+                                                </div>
+                                            </th>
+
+                                            <th>
+                                                <div class="level-right">
+                                                    Name
+                                                </div>
+                                            </th>
+
+                                            <th>
+                                                <div class="level-right">
+                                                    Quantity
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="level-right">
+                                                    Price
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="body_table">
+
+                                    </tbody>
+                                </table>
+                                <div class="checkout">
+                                    <div class="total">
+                                        <div>
+                                            <div class="Subtotal">Sub-Total</div>
+                                            <div class="items" id="items"></div>
+                                        </div>
+                                        <div class="total-amount" id="total-price"></div>
+                                    </div>
+                                    <button class="button12"><a href="/user/checkout">Buy</a></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal rounded" id="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card animate__animated animate__slideInUp">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Alert</p>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <p>Your session has expired</p>
+        </section>
+        <button class="modal-close is-large" id="close" aria-label="close"></button>
+    </div>
+</div>
+
+<script>
+    const tok = localStorage.getItem('token');
+
+    if (token) {
+        const url = '/shop_cart/';
+
+        const data = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }
+
+        fetch(url, data)
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                res.shopping_cart.products.forEach((product) => {
+                    const body_table = document.getElementById('body_table');
+                    body_table.innerHTML += `
+                            <tr class="has-text-centered">
+                                            <td width="5%">
+                                                <img src="${product.product_image}"
+                                                    alt="">
+                                            </td>
+                                            <td>
+                                                <div class="level-right">
+                                                    <p>
+                                                        <strong id="price-product">${product.product_name}</strong>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="level-right">
+                                                    
+                                                    <h6 class="count"
+                                                        style="padding-top: 5%; padding-left: 5%; padding-right: 5%;">1
+                                                    </h6>
+                                                    
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="level-right">
+                                                    <p>
+                                                        <strong>${product.product_price}</strong>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                        
+                        `
+                })
+
+
+                calculateTotal(res.shopping_cart.products);
+                changeItems(res.shopping_cart.products);
+                localStorage.setItem('shopping_cart', JSON.stringify(res.shopping_cart.products));
+
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    } else {
+        const modal = document.getElementById('modal');
+        const close = document.getElementById('close');
+        modal.classList.add('is-active');
+
+        setTimeout(() => {
+            modal.classList.remove('is-active');
+            window.location.href = '/auth/login';
+        }, 3000);
+
+        close.addEventListener('click', () => {
+            modal.classList.remove('is-active');
+            window.location.href = '/auth/login';
+        });
+
+
+    }
+
+
+    const calculateTotal = (products) => {
+        const total = document.getElementById('total-price');
+        let total_price = 0;
+
+        products.forEach((product) => {
+            total_price += parseInt(product.product_price);
+        })
+
+        total.innerHTML = `${total_price}`;
+
+    }
+
+
+    const changeItems = (product) => {
+        const items = document.getElementById('items');
+        items.innerHTML = `Total items ${product.length}`;
+    }
+
+</script>

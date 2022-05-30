@@ -17,23 +17,20 @@ class Server {
         this.Server = require('http').createServer(this.app);
         this.midelwares();
         //this.database();
-        this.user_path = '/user';   
+        this.user_path = '/user';
         this.auth_path = '/auth';
         this.products_path = '/products';
         this.shopping_cart_path = '/shop_cart';
         this.order_path = '/order';
         this.product_categories = db.product_categories;
         this.routes();
-
-
-
     }
 
     routes() {
-        // this.app.use(this.user, require('./routes/user.route'));
+        this.app.use(this.user_path, require('./routes/user.route'));
         this.app.use(this.auth_path, require('./routes/auth.route'));
-        this.app.use(this.products_path , require('./routes/product.route'));
-        // this.app.use(this.shopping_cart, require('./routes/shopping_cart.route'));
+        this.app.use(this.products_path, require('./routes/product.route'));
+        this.app.use(this.shopping_cart_path, require('./routes/shopping_cart.route'));
         // this.app.use(this.order, require('./routes/order.route'));
         this.app.get('/', async (req, res) => {
             let products = await db.Product.findAll();
@@ -41,7 +38,7 @@ class Server {
             products = products.map(product => product.toJSON());
             categories = categories.map(category => category.toJSON());
             res.render('index', {
-                products: products, 
+                products: products,
                 categories: categories
             });
         });
@@ -61,7 +58,7 @@ class Server {
     midelwares() {
         this.app.use(cors());
         this.app.use(logger('dev'));
-        
+
         this.app.use(express.static(path.join(__dirname, 'public')));
 
         this.app.use(express.urlencoded({ extended: true })); //Esto es para formData

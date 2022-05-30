@@ -1,35 +1,26 @@
-// const res = require("express/lib/response");
 
-// const getUser = (req, res) => {
-//     res.render('user', {
-//         title: 'politas'
-//     });
-// };
+class UserController {
+    getUser(req, res) {
+        res.render('user', {
+            title: 'politas'
+        });
+    };
 
+    getUserLogin(req, res) {
+        res.render('user_login')
+    }
 
+    getPurchase(req, res) {
+        res.render('user/purchase')
+    }
 
+    getCart(req, res) {
+        res.render('shopping_car/cart')
+    }
 
-// const getUserLogin = (req, res) => {
-//     res.render('user_login')
-// }
+    getProcess(req, res) {
+        res.render('process')
+    }
+}
 
-// const getPurchase = (req, res) => {
-//     res.render('purchase')
-// }
-
-// const getCart = (req, res) => {
-//     res.render('cart')
-// }
-
-// const getProcess = (req, res) => {
-//     res.render('process')
-// }
-
-
-// module.exports = {
-//     getUser,
-//     getUserLogin,
-//     getPurchase,
-//     getCart,
-//     getProcess
-// };
+module.exports = new UserController();
