@@ -16,13 +16,17 @@ module.exports = (sequelize, DataTypes) => {
         as: 'supplier'
       });
       Product.hasOne(models.Product_details, {
-        foreignKey: 'product_id',
+        foreignKey: 'product_details_id',
         as: 'product_details'
       });
-      Product.belongsTo(models.Shopping_car, {
-        foreignKey: 'shopping_car_id',
-        as: 'shopping_car'
+     Product.belongsTo(models.Brand, {
+        foreignKey: 'brand_id',
+        as: 'brand'
       });
+      Product.has_many(models.Product_item, {
+        foreignKey: 'product_id', 
+        as: 'product_items'
+      })
       Product.belongsTo(models.Product_category, {
         foreignKey: 'product_category_id',
         as: 'product_category'
