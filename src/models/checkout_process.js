@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Checkout_process.belongsTo(models.Shopping_car, {
+      Checkout_process.hasOne(models.Shopping_car, {
         foreignKey: 'shopping_car_id',
         as: 'shopping_car'
       });

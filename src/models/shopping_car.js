@@ -19,10 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'buyer_id',
         as: 'buyer'
       });
-      Shopping_car.hasOne(models.Checkout_process, {
-        foreignKey: 'shopping_car_id',
-        as: 'checkout_process'
-      });
+      
       Shopping_car.hasOne(models.Order, {
         foreignKey: 'shopping_car_id',
         as: 'order'
