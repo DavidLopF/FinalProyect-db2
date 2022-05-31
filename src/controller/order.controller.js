@@ -85,7 +85,7 @@ class OrderController {
     }
 
     async getAllOrders(req, res) {
-        const orders = await Order.find();
+        const orders = await db.Order.findAll();
         res.json({
             ok: true,
             orders: orders

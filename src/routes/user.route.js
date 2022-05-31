@@ -29,7 +29,7 @@ router.get("/order", (req, res) => {
 })
 
 router.get("/orders", (req, res) => {
-    userController.getAllOrders(req, res);
+    orderController.getAllOrders(req, res);
 })
 
 router.get('/profile', (req, res) => {
