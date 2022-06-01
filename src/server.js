@@ -5,6 +5,7 @@ const path = require('path');
 const colors = require('colors');
 const hbs = require('express-handlebars');
 const db = require('./models/index');
+const fileUpload = require('express-fileupload');
 //const { dbConection } = require("./db/mongo");
 
 
@@ -73,7 +74,11 @@ class Server {
         }));
 
         this.app.set('view engine', '.hbs');
-        this.app.set('views', path.join(__dirname, 'views'));
+        this.app.set('views', path.join(__dirname, 'views'));   
+        this.app.use(fileUpload({
+            useTempFiles: true,
+            tempFileDir: 'tmp/',
+        }));
 
     }
 

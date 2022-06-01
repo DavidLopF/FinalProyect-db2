@@ -52,7 +52,7 @@ class OrderController {
                     include: [{
                         model: db.User,
                         as: 'user',
-                        attributes: ['id', 'full_name', 'email']
+                        attributes: ['id', 'full_name', 'city', 'address'],
                     }]
                 }]
             });
@@ -66,6 +66,7 @@ class OrderController {
                 delete product.supplier_id;
                 return product;
             });
+            console.log(getOrder.buyer.user);
             res.render(`order/order`, {
                 order: getOrder,
                 user: getOrder.buyer.user,
@@ -85,10 +86,21 @@ class OrderController {
     }
 
     async getAllOrders(req, res) {
-        const orders = await Order.find();
-        res.json({
-            ok: true,
-            orders: orders
+        let token = req.headers.authorization.split(" ")[1];
+        const { uid } = jwt.verify(token, process.env.TOKEN_BUYER);
+        console.log(uid);
+        let getBuyer = await db.Buyer.findOne({
+            where: { user_id: uid },
+        });
+        getBuyer = getBuyer.dataValues;
+        let getOrders = await db.Order.findAll({
+            where: { buyer_id: getBuyer.id },
+        });
+        getOrders = getOrders.map(order => {
+            res.json({
+                ok: true,
+                orders: getOrders
+            });
         });
     }
 
@@ -112,7 +124,7 @@ class OrderController {
                 price += parseInt(product.product_price);
             });
 
-        
+
 
         } else {
             res.status(400).json({

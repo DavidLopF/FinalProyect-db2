@@ -16,6 +16,7 @@ const validateJWT = (req, res, next) => {
 
             const verify = jwt.verify(token, process.env.TOKEN_BUYER);
             if (verify) {
+                req.user = verify;
                 next()
             } else {
                 return res.status(500).json({

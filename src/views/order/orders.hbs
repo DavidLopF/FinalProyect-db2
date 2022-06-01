@@ -1,4 +1,9 @@
-<h1>Ordenes</h1>
+
+
+<div class="container is-centered mt-5" id="order_container">
+    <p class="title has-text-centered">Mis ordenes</p>
+
+</div>
 
 
 <div class="modal rounded" id="modal">
@@ -18,8 +23,8 @@
 <script>
     const tok = localStorage.getItem('token');
     const p_modal = document.getElementById('p_modal');
-    if (tok){
-        
+    if (tok) {
+
         const url = '/user/orders';
         const data = {
             headers: {
@@ -27,28 +32,70 @@
                 'authorization': `Bearer ${tok}`
             }
         }
-
         fetch(url, data)
-        .then(res => res.json())
-        .then(res =>{
-            console.log(res);
-        })
-        .catch(err => console.log(err))
-
-
-    }else{
+            .then(res => res.json())
+            .then(res => {
+                res.orders.forEach((order) => {
+                    console.log(res);
+                    const order_item = `
+                <div class="column">
+                    <div class="card is-small">
+                        <a href="../order/${order.id}">
+                            <h1 class="has-text-centered mt-5 has-text-weight-bold is-family-primary has-text-info">Orden #${order.id}</h1>
+                        </a>
+                        <div class="card-content">
+                            <div class="container is-centered mt-5">
+                                <div class="card is-centered is-full">
+                                    <div class="card-content">
+                                         <div class="columns">
+                                            <div class="column">
+                                               <p class="title is-4 has-text-left">Precio</p>
+                                            </div>
+                                            <div class="column">
+                                                <p class="title is-4 has-text-left">Estado</p>
+                                            </div>
+                                        </div>
+                                        <div class="columns">
+                                            <div class="column">
+                                               ${order.amount}
+                                            </div>
+                                            <div class="column">
+                                                ${order.status}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `
+                    const container = document.getElementById('order_container');
+                    container.innerHTML += order_item;
+                })
+            })
+            .catch(err => console.log(err))
+    } else {
         p_modal.innerHTML = 'You must be logged in to add products to the cart';
         const modal = document.getElementById('modal');
         modal.classList.add('is-active');
-
         const close = document.getElementById('close');
         close.addEventListener('click', () => {
             modal.classList.remove('is-active');
         });
-
         setTimeout(() => {
             modal.classList.remove('is-active');
             window.location.href = '/auth/login';
         }, 3000);
     }
 </script>
+<style>
+    .is-small {
+        max-width: 500px;
+    }
+
+    .card {
+        margin: 0 auto;
+    }
+</style>
