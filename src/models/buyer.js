@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'buyer_id',
         as: 'orders'
       });
+      Buyer.hasMany(models.Checkout_process, {
+        foreignKey: 'buyer_id',
+        as: 'checkout_processes'
+      });
     }
   }
   Buyer.init({
