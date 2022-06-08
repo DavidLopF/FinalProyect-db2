@@ -11,17 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Order.belongsTo(models.Payment, {
+      Order.hasOne(models.Payment, {
         foreignKey: 'payment_id',
         as: 'payment'
       });
-      Order.belongsTo(models.Shipment_details, {
-        foreignKey: 'shipment_details_id',
-        as: 'shipment_details'
+      Order.belongsTo(models.Shopping_car, {
+        foreignKey: 'shopping_car_id',
+        as: 'shopping_car'
       });
       Order.belongsTo(models.Buyer, {
         foreignKey: 'buyer_id',
         as: 'buyer'
+      });
+      Order.belongsTo(models.Checkout_process, {
+        foreignKey: 'checkout_process_id',
+        as: 'checkout_process'
       });
     }
   }

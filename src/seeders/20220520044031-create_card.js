@@ -25,14 +25,12 @@ module.exports = {
     let paymentsTypes = cards.map(card => {
       if (card.id % 2 === 0) {
         return {
-          card_id: card.id,
           type: 'debit',
           createdAt: new Date(),
           updatedAt: new Date()
         }
       } else {
         return {
-          card_id: card.id,
           type: 'credit',
           createdAt: new Date(),
           updatedAt: new Date()

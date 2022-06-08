@@ -15,10 +15,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'checkout_process_id',
         as: 'checkout_process'
       });
-      Shipment_details.hasOne(models.Order, {
-        foreignKey: 'shipment_details_id',
-        as: 'order'
-      });
     }
   }
   Shipment_details.init({

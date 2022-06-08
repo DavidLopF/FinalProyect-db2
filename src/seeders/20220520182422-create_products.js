@@ -20,6 +20,15 @@ module.exports = {
         SELECT * FROM "Buyers"
       `, { type: Sequelize.QueryTypes.SELECT });
 
+    let brands = []
+    brands.push({
+      name: 'Apple', 
+      country: 'Usa',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    })
+    await queryInterface.bulkInsert('Brands', brands, {});
+
     let shopping_cars = buyers.map(buyer => {
       return {
         createdAt: new Date(),
@@ -27,6 +36,7 @@ module.exports = {
         buyer_id: buyer.id
       }
     })
+
     await queryInterface.bulkInsert('Shopping_cars', shopping_cars, {});
     shopping_cars = await queryInterface.sequelize.query(`
         SELECT * FROM "Shopping_cars"
@@ -35,6 +45,11 @@ module.exports = {
     let supplers = await queryInterface.sequelize.query(`
         SELECT * FROM "Suppliers"
       `, { type: Sequelize.QueryTypes.SELECT });
+    
+    let brands_query = await queryInterface.sequelize.query(
+      `SELECT * FROM "Brands"`,
+      { type: Sequelize.QueryTypes.SELECT }
+    )
 
 
     let products = []
@@ -45,9 +60,8 @@ module.exports = {
         updatedAt: new Date(),
         name: 'Producto ' + i,
         price: i * 10,
-        brand: 'Marca ' + i,
+        brand_id: brands_query[0].id,
         product_category_id: product_categories[i].id,
-        shopping_car_id: shopping_cars[i].id,
         supplier_id: supplers[i].id
 
       })

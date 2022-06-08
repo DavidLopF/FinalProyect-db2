@@ -15,9 +15,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'buyer_id',
         as: 'buyer'
       });
-      Card.hasOne(models.Payment_types, {
+      Card.hasMany(models.Payment, {
         foreignKey: 'card_id',
-        as: 'payment_type'
+        as: 'payments'
       });
     }
   }
