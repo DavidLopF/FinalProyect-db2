@@ -2,7 +2,7 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    let shopping_cars = await queryInterface.sequelize.query(`
+    /*let shopping_cars = await queryInterface.sequelize.query(`
         SELECT * FROM "Shopping_cars"
       `, { type: Sequelize.QueryTypes.SELECT });
     let checkout_process = shopping_cars.map(shopping_car => {
@@ -48,15 +48,15 @@ module.exports = {
 
     await queryInterface.bulkInsert('Orders', orders, {});
 
-
+*/
 
   },
 
   async down(queryInterface, Sequelize) {
 
-    await queryInterface.bulkDelete('Checkout_processes', null, {});
+    /*await queryInterface.bulkDelete('Checkout_processes', null, {});
     await queryInterface.bulkDelete('Shipment_details', null, {});
-    await queryInterface.bulkDelete('Orders', null, {});
+    await queryInterface.bulkDelete('Orders', null, {});*/
 
   }
 
