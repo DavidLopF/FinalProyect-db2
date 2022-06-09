@@ -21,9 +21,21 @@
                     <input type="text" id="formColor" class="form-control" />
                 </div>
                 <div class="form-outline mb-4">
+                    <label class="form-label" for="form4Example2">Descripción</label>
+                    <textarea class="form-control" id="formDescription" rows="3"></textarea>
+                </div>
+                <div class="form-outline mb-4">
                     <label class="form-label" for="form4Example2">Marca</label>
                     <select class="form-select" id="formBranch" aria-label="Default select example">
                         {{#each brands}}
+                        <option value="{{id}}">{{name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="form4Example2">Categoria</label>
+                    <select class="form-select" id="formCategory" aria-label="Default select example">
+                        {{#each product_categories}}
                         <option value="{{id}}">{{name}}</option>
                         {{/each}}
                     </select>
@@ -48,7 +60,9 @@
         const price = document.getElementById('formPrice').value;
         const quantity = document.getElementById('formQuantity').value;
         const size = document.getElementById('formSize').value;
-        const branch_id = document.getElementById('formBranch').value;
+        const brand_id = document.getElementById('formBranch').value;
+        const description = document.getElementById('formDescription').value;
+        const category_id = document.getElementById('formCategory').value;
         const tok = localStorage.getItem('token');
         const data = {
             name: name,
@@ -56,7 +70,9 @@
             price: price,
             quantity: quantity,
             size: size,
-            branch_id: branch_id
+            brand_id: brand_id,
+            description: description,
+            category_id: category_id
         };
         //console.log(data);
         const url = '/supplier/create';

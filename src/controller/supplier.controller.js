@@ -10,12 +10,13 @@ class SupplierController{
         this.product_details = db.Product_details;
         this.product_item = db.Product_item;
         this.brand = db.Brand;
+        this.product_category = db.Product_category;
     }
 
     async getMyProducts(req, res){
         //let token = req.headers.Authorization.split(" ")[1];
         //const { uid } = jwt.verify(token, process.env.TOKEN_SUPPLIER);
-        const uid  = 14 //por ahora no funciona 
+       // const uid  = 14 //por ahora no funciona 
 
         const current_supplier = await this.supplier.findOne({
             limit: 1,
@@ -81,10 +82,13 @@ class SupplierController{
 
     async getBrands(req, res){
         let brands = await this.brand.findAll();
+        let product_categories = await this.product_category.findAll();
+        product_categories = product_categories.map(product_category => product_category.toJSON());
         brands = brands.map(brand => brand.toJSON());
         console.log(brands)
         res.render('supplier/new_product', {
-            brands: brands
+            brands: brands,
+            product_categories: product_categories
         });
     }
         
@@ -117,7 +121,7 @@ class SupplierController{
     }
 
     async createProduct(req, res){
-        const {name, price ,brand_id ,size ,color, quantity} = req.body;
+        const {name, price ,brand_id ,size ,color, quantity, description, category_id} = req.body;
         const current_supplier = await this.supplier.findOne({
             limit: 1,
             order: [['createdAt', 'DESC']]
@@ -126,7 +130,9 @@ class SupplierController{
             name: name,
             price: price,
             brand_id: brand_id,
-            supplier_id: current_supplier.id
+            description: description,
+            supplier_id: current_supplier.id,
+            product_category_id: category_id
         });
         let product_details = await this.product_details.create({
             size: size,
