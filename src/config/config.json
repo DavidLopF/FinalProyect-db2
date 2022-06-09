@@ -11,7 +11,8 @@
           "require": true,
           "rejectUnauthorized": false
       }
-   }
+   },
+   "loggin" : false
 
   },
   "test": {

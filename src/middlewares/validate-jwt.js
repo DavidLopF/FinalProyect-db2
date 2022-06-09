@@ -64,5 +64,6 @@ const validateJwtSeller = (req = request, res = response, next) => {
 
 
 module.exports = {
-    validateJWT
+    validateJWT,
+    validateJwtSeller
 }
