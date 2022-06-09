@@ -1,5 +1,7 @@
 'use strict';
 
+const random = require('random');
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     let product_categories = []
@@ -36,30 +38,42 @@ module.exports = {
         SELECT * FROM "Suppliers"
       `, { type: Sequelize.QueryTypes.SELECT });
 
-
-    let products = []
-    //crear 5 productos por cada shopping_car
+    let brand = []
     for (let i = 0; i < 5; i++) {
+      brand.push({
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        name: 'Marca ' + i,
+        country: 'Pais ' + i,
+      })
+    }
+    await queryInterface.bulkInsert('Brands', brand, {});
+    brand = await queryInterface.sequelize.query(`
+        SELECT * FROM "Brands"
+      `, { type: Sequelize.QueryTypes.SELECT });
+    let products = []
+    for (let i = 0; i < 100; i++) {
+      const random_category = random.int(0, product_categories.length - 1)
+      const random_brand = random.int(0, brand.length - 1)
+      const random_suppler = random.int(0, supplers.length - 1)
       products.push({
         createdAt: new Date(),
         updatedAt: new Date(),
         name: 'Producto ' + i,
-        price: i * 10,
-        brand: 'Marca ' + i,
-        product_category_id: product_categories[i].id,
-        shopping_car_id: shopping_cars[i].id,
-        supplier_id: supplers[i].id
-
+        description: 'Descripcion del producto ' + i,
+        price: random.int(1000, 10000000),
+        product_category_id: product_categories[random_category].id,
+        brand_id: brand[random_brand].id,
+        supplier_id: supplers[random_suppler].id,
       })
     }
     await queryInterface.bulkInsert('Products', products, {});
-
     products = await queryInterface.sequelize.query(`
         SELECT * FROM "Products"
       `, { type: Sequelize.QueryTypes.SELECT });
 
     let product_details = []
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 100; i++) {
       product_details.push({
         color: 'Color ' + i,
         size: 23,
@@ -68,10 +82,23 @@ module.exports = {
         product_id: products[i].id
       })
     }
-
     await queryInterface.bulkInsert('Product_details', product_details, {});
-    
-   
+
+    let productItems = []
+    for (let i = 0; i < 100; i++) {
+      const random_shopping_car = random.int(0, shopping_cars.length - 1)
+      let date = new Date();
+      date.setDate(date.getDate() - Math.floor((Math.random() * (30 - 1 + 1)) + 1));
+      productItems.push({
+        product_id: products[i].id,
+        createdAt: date,
+        updatedAt: date,
+        shopping_car_id: shopping_cars[random_shopping_car].id,
+      })
+    }
+    await queryInterface.bulkInsert('Product_items', productItems, {});
+
+
 
   },
   async down(queryInterface, Sequelize) {
@@ -80,6 +107,8 @@ module.exports = {
     await queryInterface.bulkDelete('Shopping_cars', null, {});
     await queryInterface.bulkDelete('Products', null, {});
     await queryInterface.bulkDelete('Product_details', null, {});
+    await queryInterface.bulkDelete('Brands', null, {});
+    await queryInterface.bulkDelete('Product_items', null, {});
 
   }
 };

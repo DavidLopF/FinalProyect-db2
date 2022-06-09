@@ -1,10 +1,18 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "admin",
-    "database": "marketplace_db",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
+    "username": "eflwxqicyojrku",
+    "password": "83a6354a8019ac82f254d9ae928d216a309c5ac6364a43977185fe2fdb9c4afc",
+    "database": "d3mi77vaq130ls",
+    "port": 5432,
+    "host": "ec2-3-211-221-185.compute-1.amazonaws.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+          "require": true,
+          "rejectUnauthorized": false
+      }
+   }
+
   },
   "test": {
     "username": "postgres",

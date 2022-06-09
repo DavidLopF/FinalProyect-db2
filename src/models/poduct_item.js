@@ -15,15 +15,14 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'product_id',
         as: 'product'
       });
-      Product_item.hasOne(models.Shopping_car, {
+      Product_item.belongsTo(models.Shopping_car, {
         foreignKey: 'shopping_car_id',
         as: 'shopping_car'
       });
     }
   }
   Product_item.init({
-    product_id: DataTypes.INTEGER,
-    shopping_car_id: DataTypes.INTEGER
+  
   }, {
     sequelize,
     modelName: 'Product_item',
