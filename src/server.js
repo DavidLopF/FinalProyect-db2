@@ -25,6 +25,7 @@ class Server {
         this.order_path = '/order';
         this.payments_path = '/payments';
         this.product_categories = db.product_categories;
+        this.supplier_path = '/supplier';
 
         this.routes();
     }
@@ -36,6 +37,7 @@ class Server {
         this.app.use(this.shopping_cart_path, require('./routes/shopping_cart.route'));
         this.app.use(this.order_path, require('./routes/order.route'));
         this.app.use(this.payments_path, require('./routes/payments.route'));
+        this.app.use(this.supplier_path, require('./routes/supplier.route'));
         this.app.get('/', async (req, res) => {
             let products = await db.Product.findAll();
             let categories = await db.Product_category.findAll();
