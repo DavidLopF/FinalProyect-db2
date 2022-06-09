@@ -46,10 +46,10 @@ class PaymentController {
             buyer,
             payments
         })
-
-
-
-
+    }
+    
+    getPaymentsView(req, res){
+        res.render('compra')
     }
 }
 
