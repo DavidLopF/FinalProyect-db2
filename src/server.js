@@ -25,7 +25,7 @@ class Server {
         this.order_path = '/order';
         this.payments_path = '/payments';
         this.product_categories = db.product_categories;
-       
+
         this.routes();
     }
 
@@ -77,7 +77,7 @@ class Server {
         }));
 
         this.app.set('view engine', '.hbs');
-        this.app.set('views', path.join(__dirname, 'views'));   
+        this.app.set('views', path.join(__dirname, 'views'));
         this.app.use(fileUpload({
             useTempFiles: true,
             tempFileDir: 'tmp/',

@@ -100,7 +100,6 @@ class OrderController {
             ok: true,
             orders: getOrders
         });
-
     }
 
     async createOrder(req, res) {
