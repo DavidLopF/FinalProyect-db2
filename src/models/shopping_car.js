@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // define association hereS
       Shopping_car.hasMany(models.Product_item, {
         foreignKey: 'shopping_car_id',
         as: 'product_items'
@@ -19,7 +19,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'buyer_id',
         as: 'buyer'
       });
-      
+      Shopping_car.hasOne(models.Checkout_process, {
+        foreignKey: 'shopping_car_id',
+        as: 'checkout_process'
+      });
       Shopping_car.hasOne(models.Order, {
         foreignKey: 'shopping_car_id',
         as: 'order'

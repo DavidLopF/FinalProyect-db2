@@ -2,7 +2,7 @@ const { response, request } = require("express");
 const jwt = require('jsonwebtoken');
 
 
-const validateJWT = (req, res, next) => {
+const validateJWT = (req = request, res = response, next) => {
     let token = req.headers.authorization;
     try {
         if (!token) {
@@ -11,9 +11,7 @@ const validateJWT = (req, res, next) => {
                 message: 'token invalid or expired your session',
             })
         } else {
-
             token = token.split(" ")[1]
-
             const verify = jwt.verify(token, process.env.TOKEN_BUYER);
             if (verify) {
                 req.user = verify;
@@ -26,7 +24,6 @@ const validateJWT = (req, res, next) => {
             }
 
         }
-
     } catch (err) {
         return res.status(500).json({
             ok: false,

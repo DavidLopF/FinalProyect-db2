@@ -23,18 +23,19 @@ class Server {
         this.products_path = '/products';
         this.shopping_cart_path = '/shop_cart';
         this.order_path = '/order';
-        this.supplier_path = '/supplier';
+        this.payments_path = '/payments';
         this.product_categories = db.product_categories;
+
         this.routes();
     }
 
     routes() {
-        this.app.use(this.supplier_path, require('./routes/supplier.route'));
         this.app.use(this.user_path, require('./routes/user.route'));
         this.app.use(this.auth_path, require('./routes/auth.route'));
         this.app.use(this.products_path, require('./routes/product.route'));
         this.app.use(this.shopping_cart_path, require('./routes/shopping_cart.route'));
         this.app.use(this.order_path, require('./routes/order.route'));
+        this.app.use(this.payments_path, require('./routes/payments.route'));
         this.app.get('/', async (req, res) => {
             let products = await db.Product.findAll();
             let categories = await db.Product_category.findAll();
@@ -76,7 +77,7 @@ class Server {
         }));
 
         this.app.set('view engine', '.hbs');
-        this.app.set('views', path.join(__dirname, 'views'));   
+        this.app.set('views', path.join(__dirname, 'views'));
         this.app.use(fileUpload({
             useTempFiles: true,
             tempFileDir: 'tmp/',

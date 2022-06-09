@@ -8,11 +8,11 @@ module.exports = {
     let cards = buyers.map(buyer => {
       return {
         buyer_id: buyer.id,
-        name: "card name test" + buyer.id,
-        number: '1234567890123' + buyer.id,
-        ccv: '123',
+        name_card: 'Карта покупателя ' + buyer.name,
+        number: '1111111111111111',
         expiration_month: '12',
         expiration_year: '2022',
+        ccv: '123',
         createdAt: new Date(),
         updatedAt: new Date()
       }
@@ -21,40 +21,24 @@ module.exports = {
     cards = await queryInterface.sequelize.query(`
         SELECT * FROM "Cards"
       `, { type: Sequelize.QueryTypes.SELECT });
-
-    let paymentsTypes = cards.map(card => {
-      if (card.id % 2 === 0) {
-        return {
-          type: 'debit',
-          createdAt: new Date(),
-          updatedAt: new Date()
-        }
-      } else {
-        return {
-          type: 'credit',
-          createdAt: new Date(),
-          updatedAt: new Date()
-        }
-      }
-    })
-    await queryInterface.bulkInsert('Payment_types', paymentsTypes, {});
-
-    //tomar 5 registros aleatorios de la tabla Payment_types
-    let payments = await queryInterface.sequelize.query(`
-        SELECT * FROM "Payment_types"
-        ORDER BY RANDOM()
-        LIMIT 5
-      `, { type: Sequelize.QueryTypes.SELECT });
-
-    payments = payments.map(payment => {
-      return {
+    //meteren un array los tipos de pagos credito y debito
+    let payment_types = [
+      {
+        type: 'credit',
         createdAt: new Date(),
-        updatedAt: new Date(),
-        payment_type_id: payment.id
+        updatedAt: new Date()
+      },
+      {
+        type: 'debit',
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
-    })
+    ]
+    await queryInterface.bulkInsert('Payment_types', payment_types, {});
 
-    await queryInterface.bulkInsert('Payments', payments, {});
+
+
+
 
 
   },

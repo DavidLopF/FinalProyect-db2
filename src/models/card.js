@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Card.init({
-    name: DataTypes.STRING,
+    name_card: DataTypes.STRING,
     number: DataTypes.STRING,
     expiration_month: DataTypes.STRING,
     expiration_year: DataTypes.STRING,
