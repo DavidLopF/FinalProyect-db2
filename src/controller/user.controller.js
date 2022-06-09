@@ -41,6 +41,10 @@ class UserController {
             })
         });
     }
+
+    getPurchase() {
+        
+    }
 }
 
 module.exports = new UserController();
