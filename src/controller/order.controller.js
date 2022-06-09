@@ -22,7 +22,7 @@ class OrderController {
                     as: 'user',
                     attributes: ['id', 'full_name', 'email']
                 }]
-            }, {
+            }/*, {
                 model: db.Shipment_details,
                 as: 'shipment_details',
                 attributes: ['id', 'shipment_type', 'addres'],
@@ -31,7 +31,7 @@ class OrderController {
                     as: 'checkout_process',
                     attributes: ['shopping_car_id'],
                 }]
-            }]
+            }*/]
         });
         if (getOrder) {
             getOrder = getOrder.dataValues;
@@ -116,11 +116,38 @@ class OrderController {
                 where: { buyer_id: getBuyer.id }
             });
             shop_car_id = shop_car_id.dataValues;
+            let shipment_details = await db.Shipment_details.create({
+                address: address,
+                shipment_type: 'shipment',
+            });
+
+            let checkout_process_id = await db.Checkout_process.create({
+                shopping_car_id: shop_car_id.id,
+                buyer_id: getBuyer.id,
+                shipment_details_id: shipment_details.id
+            })
+            let price = 0
             shoppingCart.forEach(async (product) => {
+                price += parseInt(product.product_price);
+            });
+
+            let order = await db.Order.create({
+                buyer_id: getBuyer.id,
+                checkout_process_id: checkout_process_id.id,
+                status: true,
+                amount: `${price}`
+            });
+            res.json({
+                ok: true,
+                message: 'Orden creada correctamente',
+                order: order
+            });
+
+            /*shoppingCart.forEach(async (product) => {
                 const productItem = `INSERT INTO public.product_items(product_id, shopping_car_id) VALUES ('${product.product_id}', '${shop_car_id.id}') RETURNING id`;
                 await marketplace.query(productItem);
                 price += parseInt(product.product_price);
-            });
+            });*/
 
 
 
