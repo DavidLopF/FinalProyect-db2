@@ -29,12 +29,17 @@ router.get("/order", (req, res) => {
 })
 
 router.get("/orders", (req, res) => {
-    userController.getAllOrders(req, res);
+    orderController.getAllOrders(req, res);
 })
 
 router.get('/profile', (req, res) => {
     res.render('user/user');
 })
+
+router.put('/avatar/:id', (req, res) => {
+    userController.updateAvatar(req, res);
+})
+
 
 
 module.exports = router;
