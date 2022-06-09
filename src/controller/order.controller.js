@@ -96,12 +96,11 @@ class OrderController {
         let getOrders = await db.Order.findAll({
             where: { buyer_id: getBuyer.id },
         });
-        getOrders = getOrders.map(order => {
-            res.json({
-                ok: true,
-                orders: getOrders
-            });
+        res.json({
+            ok: true,
+            orders: getOrders
         });
+
     }
 
     async createOrder(req, res) {

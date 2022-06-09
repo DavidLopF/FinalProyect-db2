@@ -73,9 +73,10 @@ module.exports = {
       const random_payment = random.int(0, payments.length - 1)
       const random_shoppinng = random.int(0, shopping_cars.length - 1)
       const random_checkout_process = random.int(0, checkout_process.length - 1)
+      const random_date = new Date(random.int(0, Date.now()))
       orders.push({
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: random_date,
+        updatedAt: random_date,
         payment_id: payments[random_payment].id,
         shopping_car_id: shopping_cars[random_shoppinng].id,
         checkout_process_id: checkout_process[random_checkout_process].id,
