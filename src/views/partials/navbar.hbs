@@ -29,7 +29,9 @@
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
 
+
     if (typeof token !== 'undefined' && token !== null && typeof user !== 'undefined' && user !== null) {
+        console.log('typeuser', user);
         document.getElementById('options').innerHTML = `
         <li class="nav-item" id="menu_login">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -45,6 +47,8 @@
         </li>
          <li class="nav-item">
                     <a class="nav-link active" href="/user/my_purchases">Mis compras</a>
+                    <a class="nav-link active" href="/supplier/my_products">Mis productos</a>
+
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="/user/order">Mis ordenes</a>

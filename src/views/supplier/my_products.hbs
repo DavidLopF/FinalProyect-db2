@@ -1,0 +1,46 @@
+<div class="container shadow-lg p-3 mt-6">
+    <div class="hero-body">      
+        <div class="container" style="padding-left: 5%;">
+            <h1>My products</h1>
+            <div class="columns">
+                <div class="column is-12">
+                    <div class="card-content">
+                       <div class="card-table">
+                            <div class="content">
+                                <table class="table is-fullwidth is-striped">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Nombre</th>
+                                            <th>Precio</th>
+                                            <th>Cantidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each products}}
+                                            <tr>
+                                                <td width="5%">
+                                                <img src="https://falabella.scene7.com/is/image/FalabellaCO/19604512_1?wid=800&hei=800&qlt=70"
+                                                    alt="">
+                                                </td>
+                                                <td>{{name}}</td>
+                                                <td>{{price}}</td>
+                                                <td class="level-right">
+                                                    <a class="button is-small is-primary" href="show/{{id}}">Ver producto</a>
+                                                </td>
+                                                <td>
+                                                    <a class="button is-small is-primary" href="edit/{{id}}">Editar</a>
+                                                </td>
+                                            </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="/supplier/new_product"><button class="button is-primary">Create product</button></a>
+        </div>
+    </div>
+</div>

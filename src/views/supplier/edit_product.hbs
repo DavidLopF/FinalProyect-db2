@@ -1,0 +1,60 @@
+<div class="container mt-6" style="max-width: 800px;">
+    <div class="card">
+        <h1 class="Title">Edit the product </h1></h1>
+        <div class="card-content">
+            <div class="content">
+                <!-- Name input -->
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="form4Example1">Nombre</label>
+                    <input type="text" id="editName" value="{{product.name}}" class="form-control" />
+                </div>                
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="form4Example2">Marca</label>
+                    <select class="form-select" id="formBranch" aria-label="Default select example">
+                        {{#each brands}}
+                            <option value="{{id}}">{{name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="form4Example2">Precio</label>
+                    <input type="number" id="editPrice" value="{{product.price}}" class="form-control" />
+                </div>
+                <!-- Submit button -->
+                <button type="submit" onclick="updateProduct()" class="btn btn-primary btn-block mb-4">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function updateProduct() {
+        const name = document.getElementById('editName').value;
+        const price = document.getElementById('editPrice').value;
+        const brand_id = document.getElementById('formBranch').value;
+        const id = {{product.id}};
+        const data = {
+            name: name,
+            price: price,
+            brand_id: brand_id,
+            id: id
+        };
+        const url = `/supplier/update/${id}`;
+        fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => {
+            if (res.status === 200) {
+                window.location.href = `/supplier/my_products`;
+            } else {
+                alert('Error');
+            }
+        })
+       
+
+        
+    }
+</script>
