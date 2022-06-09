@@ -15,18 +15,16 @@
                         <option value="3">Mediano</option>
                     </select>
                 </div>
-
                 <!-- Email input -->
                 <div class="form-outline mb-4">
                     <label class="form-label" for="form4Example2">Color</label>
                     <input type="text" id="formColor" class="form-control" />
                 </div>
-                
                 <div class="form-outline mb-4">
                     <label class="form-label" for="form4Example2">Marca</label>
                     <select class="form-select" id="formBranch" aria-label="Default select example">
                         {{#each brands}}
-                            <option value="{{id}}">{{name}}</option>
+                        <option value="{{id}}">{{name}}</option>
                         {{/each}}
                     </select>
                 </div>
@@ -38,8 +36,6 @@
                     <label class="form-label" for="form4Example2">Cantidad</label>
                     <input type="number" id="formQuantity" class="form-control" defaultValue="1" />
                 </div>
-
-                <!-- Submit button -->
                 <button type="submit" onclick="createProduct()" class="btn btn-primary btn-block mb-4">Send</button>
             </div>
         </div>
@@ -75,19 +71,17 @@
             headers: headers,
             body: body
         })
-        .then(response =>{
-            console.log(response);
-            if(response.status == 200){
-                alert('Producto creado correctamente');
-                window.location.href = '/supplier/my_products';
-            }else{
-                alert('Error al crear el producto');
-            }
-        })
-        .catch(error => {
-            console.log(error);
-        });
+            .then(response => {
+                console.log(response);
+                if (response.status == 200) {
+                    alert('Producto creado correctamente');
+                    window.location.href = '/supplier/my_products';
+                } else {
+                    alert('Error al crear el producto');
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 </script>
-
-        

@@ -13,14 +13,15 @@ class SupplierController{
     }
 
     async getMyProducts(req, res){
-        let token = req.headers.authorization
+        //let token = req.headers.Authorization.split(" ")[1];
         //const { uid } = jwt.verify(token, process.env.TOKEN_SUPPLIER);
         const uid  = 14 //por ahora no funciona 
+
         const current_supplier = await this.supplier.findOne({
-            where: {
-                user_id: uid
-            }
-        });
+            limit: 1,
+            order: [['createdAt', 'DESC']]
+        }).then(supplier => supplier.toJSON());
+        console.log(current_supplier)
         let products = await this.product.findAll({
             where: {
                 supplier_id: current_supplier.id
@@ -34,7 +35,6 @@ class SupplierController{
     }
 
     async editProduct(req, res){
-        
         const product_id = req.params.id
         const product = await this.product.findOne({
             where: {
@@ -48,10 +48,34 @@ class SupplierController{
         })
         let brands = await this.brand.findAll();
         brands = brands.map(brand => brand.toJSON());
-        res.render('supplier/edit_product', {
+        if (product && product_details) {
+            res.render('supplier/edit_product', {
+                product: product.dataValues,
+                product_details: product_details.dataValues,
+                brands: brands
+            });
+        } else {
+            res.redirect('/supplier/my_products')
+        }
+
+    }
+
+    async getProduct(req, res) {
+        const product_id = req.params.id
+        const product = await this.product.findOne({
+            where: {
+                id: product_id
+            }
+        })
+        let product_details = await this.product_details.findAll({
+            where: {
+                product_id: product_id
+            }
+        })
+        product_details = product_details.map(product_detail => product_detail.toJSON());
+        res.render('supplier/product', {
             product: product.dataValues,
-            product_details: product_details.dataValues,
-            brands: brands
+            product_details: product_details
         });
     }
 
@@ -77,14 +101,12 @@ class SupplierController{
                 product_id: product_id
             }
         })
+        let brands = await this.brand.findAll();
+        brands = brands.map(brand => brand.toJSON());
         await product.update({
             name: name,
             price: price,
             brand_id: brand_id
-        })
-        await product_details.update({
-            size: size,
-            color: color
         })
         res.render('supplier/edit_product', {
             product: product.dataValues,
@@ -93,20 +115,13 @@ class SupplierController{
             message: 'Producto actualizado correctamente'
         });
     }
-            
-        
-        
 
     async createProduct(req, res){
         const {name, price ,brand_id ,size ,color, quantity} = req.body;
-        //let token = req.headers.authorization.split(" ")[1];
-        //const { uid } = jwt.verify(token, process.env.TOKEN_BUYER);
-        const uid  = 14 //por ahora no funciona
         const current_supplier = await this.supplier.findOne({
-            where: {
-                user_id: uid
-            }
-        });
+            limit: 1,
+            order: [['createdAt', 'DESC']]
+        }).then(supplier => supplier.toJSON());
         let product = await this.product.create({
             name: name,
             price: price,
@@ -126,6 +141,48 @@ class SupplierController{
         res.render('supplier/my_products', {
             message: 'Producto creado correctamente'
         });
+    }
+
+    async newProductVariant(req, res){
+        const product_id = req.params.id
+        let product = await this.product.findOne({
+            where: {
+                id: product_id
+            }
+        })
+        product = product.toJSON()
+
+        res.render('supplier/new_product_variant', {
+            product: product 
+        });
+    }
+
+    async lastProductDetails(req, res){
+        const product_detail = await this.product_details.findOne({
+            limit: 1,
+            order: [['createdAt', 'DESC']]
+        }).then(product_detail => product_detail.toJSON());
+        res.send(product_detail)
+    }
+
+    async createProductVariant(req, res){
+        const {size ,color, product_id} = req.body;
+        const product = await this.product.findOne({
+            where: {
+                id: product_id
+            }
+        })
+        console.log(product.dataValues)
+        const product_details = await this.product_details.create({
+            size: size,
+            color: color,
+            product_id: product.id
+        });
+        console.log(product_details.dataValues)
+        res.json({
+            product: product.dataValues,
+            product_details: product_details.dataValues
+        })
     }
 }
 

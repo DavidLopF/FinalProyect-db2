@@ -1,0 +1,50 @@
+<div class="text-center">
+    <h1>{{product.name}}</h1>
+</div>
+<br><br>
+<div class="row row-cols-sm-4 row-cols-flex">
+  {{#each product_details}}
+    <div class="col">
+      <div class="card text-black">
+        <i class="fab fa-apple fa-lg pt-3 pb-1 px-3"></i>
+        <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/3.webp"
+            class="card-img-top" alt="Apple Computer" />
+          <div class="card-body">
+            <div class="text-center">
+              <h6 class="product_title_text"></h6>
+              <p class="text-muted mb-4">Producto en venta</p>
+            </div>
+            <div>
+              <div class="d-flex justify-content-between">
+                <span>Color</span><span>{{color}}</span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span>Size</span><span>{{size}}</span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span>Price</span><span class="product_price_text"></span>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  {{/each}}
+</div>
+<br><br>
+<div class="row">
+  <div class="col">
+    <div class="d-flex justify-content-center">
+      <a href="#" id="product_variant_button"><button class="btn btn-primary" id="btn_add_to_cart">Crear nueva variante</button></a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const id = {{product.id}};
+  const price_text = document.querySelectorAll(".product_price_text");
+  const product_variant_button = document.getElementById("product_variant_button");
+  product_variant_button.href = `/supplier/product/${id}/variant`;
+  price_text.forEach(function(element) {
+    element.innerHTML = `${{product.price}}`;
+  });
+</script>

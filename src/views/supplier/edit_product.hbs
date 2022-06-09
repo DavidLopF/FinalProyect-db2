@@ -7,22 +7,7 @@
                 <div class="form-outline mb-4">
                     <label class="form-label" for="form4Example1">Nombre</label>
                     <input type="text" id="editName" value="{{product.name}}" class="form-control" />
-                </div>
-                <div class="form-outline mb-4">
-                    <label class="form-label" for="form4Example2">Tamaño</label>
-                    <select class="form-select" id="editSize" aria-label="Default select example">
-                        <option value="1">Pequeño</option>
-                        <option value="2">Grande</option>
-                        <option value="3">Mediano</option>
-                    </select>
-                </div>
-
-                <!-- Email input -->
-                <div class="form-outline mb-4">
-                    <label class="form-label" for="form4Example2">Color</label>
-                    <input type="text" id="editColor" value="{{product_details.color}}" class="form-control" />
-                </div>
-                
+                </div>                
                 <div class="form-outline mb-4">
                     <label class="form-label" for="form4Example2">Marca</label>
                     <select class="form-select" id="formBranch" aria-label="Default select example">
@@ -44,29 +29,29 @@
 <script>
     function updateProduct() {
         const name = document.getElementById('editName').value;
-        const color = document.getElementById('editColor').value;
-        const size = document.getElementById('editSize').value;
         const price = document.getElementById('editPrice').value;
-        const brand = document.getElementById('formBranch').value;
+        const brand_id = document.getElementById('formBranch').value;
         const id = {{product.id}};
         const data = {
-            name,
-            color,
-            size,
-            price,
-            brand,
-            id
+            name: name,
+            price: price,
+            brand_id: brand_id,
+            id: id
         };
         const url = `/supplier/update/${id}`;
         fetch(url, {
-            method: 'POST',
+            method: 'PUT',
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
         .then(res => {
-            console.log(res);
+            if (res.status === 200) {
+                window.location.href = `/supplier/my_products`;
+            } else {
+                alert('Error');
+            }
         })
        
 

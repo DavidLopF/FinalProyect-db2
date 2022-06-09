@@ -29,6 +29,7 @@
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
 
+
     if (typeof token !== 'undefined' && token !== null && typeof user !== 'undefined' && user !== null) {
         console.log('typeuser', user);
         document.getElementById('options').innerHTML = `
