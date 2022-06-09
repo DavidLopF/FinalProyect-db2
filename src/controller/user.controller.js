@@ -16,7 +16,8 @@ class UserController {
     }
 
     getPurchase(req, res) {
-        res.render('user/purchase')
+        console.log("------------------> paso por aqui")
+        res.render('user/purchases')
     }
     getCart(req, res) {
         res.render('shopping_car/cart')
@@ -42,9 +43,7 @@ class UserController {
         });
     }
 
-    getPurchase() {
-        
-    }
+    
 }
 
 module.exports = new UserController();
