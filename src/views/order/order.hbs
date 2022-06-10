@@ -34,7 +34,7 @@
                             <p class="title is-5">Documento: </p>
                         </div>
                         <div class="column is-half">
-                            <p class="text is-5">{{user.id_document}}</p>
+                            <p class="text is-5">{{user.id_number}}</p>
                         </div>
                     </div>
                 </div>
@@ -72,6 +72,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- 
                 <div class='row is-full'>
                     <p class="title is-4">Detalles de la compra</p>
                 </div>
@@ -91,7 +92,7 @@
                         </div>
                     </div>
                 </div>
-                {{#each products}}
+               {{#each products}}
                 <div class='row is-full'>
                     <div class="columns">
                         <div class="column is-one-third">
@@ -109,6 +110,7 @@
                     </div>
                 </div>
                 {{/each}}
+                
                 <div class='row is-full is-online'>
                     <div class="columns">
                         <div class="column is-half">
@@ -120,12 +122,16 @@
                     </div>
 
                 </div>
+                --->
             </div>
         </div>
     </div>
 </div>
 <script>
     const user = JSON.parse(localStorage.getItem('user'));
+    const user_values = {{user}};
+    console.log("Tu entra")
+    console.log(user_values)
 
 </script>
 

@@ -20,7 +20,7 @@ class OrderController {
                 include: [{
                     model: db.User,
                     as: 'user',
-                    attributes: ['id', 'full_name', 'email']
+                    attributes: ['id', 'full_name', 'email', 'id_number', 'city', 'address']
                 }]
             }/*, {
                 model: db.Shipment_details,
@@ -37,10 +37,10 @@ class OrderController {
             getOrder = getOrder.dataValues;
             getOrder.buyer = getOrder.buyer.dataValues;
             getOrder.buyer.user = getOrder.buyer.user.dataValues;
-            getOrder.shipment_details = getOrder.shipment_details.dataValues;
-            getOrder.shipment_details.checkout_process = getOrder.shipment_details.checkout_process.dataValues;
+            //getOrder.shipment_details = getOrder.shipment_details.dataValues;
+            //getOrder.shipment_details.checkout_process = getOrder.shipment_details.checkout_process.dataValues;
             let products = await db.Product.findAll({
-                where: { id: getOrder.shipment_details.checkout_process.shopping_car_id },
+                where: 4,//{ id: getOrder.shipment_details.checkout_process.shopping_car_id },
                 include: [{
                     model: db.Product_category,
                     as: 'product_category',
@@ -56,7 +56,7 @@ class OrderController {
                     }]
                 }]
             });
-            products = products.map(product => {
+            /*products = products.map(product => {
                 product = product.dataValues;
                 product.product_category = product.product_category.dataValues;
                 product.supplier = product.supplier.dataValues;
@@ -65,12 +65,12 @@ class OrderController {
                 delete product.product_category_id;
                 delete product.supplier_id;
                 return product;
-            });
+            });*/
             console.log(getOrder.buyer.user);
             res.render(`order/order`, {
                 order: getOrder,
-                user: getOrder.buyer.user,
-                products: products
+                user: getOrder.buyer.user
+                //products: products
             });
         } else {
             res.status(404).json({
